@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+ <html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+
+        <link rel="stylesheet" href="style.css">
+        
+        <!--importing the css and libraries for esri.js-->
+        <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+        <script src="https://js.arcgis.com/4.26/"></script>
+        
+
+        <script>
+    
+            require(["esri/config",
+            "esri/Map",
+            "esri/Basemap",
+            "esri/views/MapView",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/FeatureLayer",
+            "esri/layers/GroupLayer",
+            "esri/widgets/Editor",
+            "esri/layers/ImageryLayer",
+            "esri/widgets/FeatureForm",
+            "esri/widgets/FeatureTemplates",
+            "esri/form/elements/FieldElement",
+            "esri/form/elements/GroupElement",
+            "esri/form/FormTemplate",
+            "esri/form/ExpressionInfo",
+            "esri/widgets/Expand",
+            "esri/widgets/Track",
+            "esri/widgets/LayerList",
+            "esri/widgets/BasemapToggle",
+            "esri/layers/TileLayer",
+            "esri/widgets/Legend",
+            "esri/widgets/Search"
+            ],
+            function(esriConfig, Map, Basemap, MapView, VectorTileLayer, FeatureLayer, GroupLayer, Editor, ImageryLayer, FeatureForm, FeatureTemplates, FieldElement, GroupElement, FormTemplate, ExpressionInfo, Expand, Track, LayerList, BasemapToggle, TileLayer, Legend, Search) {  
+            
+            esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurM9-pAcf23W5yt8y2jTB2KTwD4hT3CaM8-Mvb-G6W0-FIsq2JSo8bVD8CnfFdds-C3yfQS5ifnWzHbHGLTeLyYRm-N-Yb28B2z5MeAQ7K8UZ_C6cCAhoLzUX1cvi7bgi7J1l9-bzFcOdtmOBaDR0Yh0qYorElBvK1M25MB1dW2Gt0lDUnSPGUcpt8bK6sYqaZgiyD1PjZZezXAvGzMQZGBMAs2cOHWJJTxzFyJRUNZqwAT1_0VZxzgI2";
+
+            const meadRenderer = {
+            type: "simple",
+            symbol : {
+                type: "simple-fill",
+                color: "rgba(199, 215, 158, 1)",
+                outline: {
+                    width: 0,
+                    }
+                }
+        };
+
+        const mead = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/5",
+            minScale: 0,
+            maxScale: 0,
+            renderer: meadRenderer,
+            editingEnabled: false,
+            
+        });
+
+        
+        const mapBaseLayer = new VectorTileLayer({
+            url: "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
+            effect: "blur(1px) brightness(0.8) grayscale(0.8)"
+        });
+
+        const tileLayer = new VectorTileLayer({
+            url: "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer",
+            blendMode: "source-atop"
+        });
+       
+        const groupLayer = new GroupLayer({
+            layers: [mead, tileLayer]
+        });   
+
+
+
+        const customBasemap = new Basemap({
+            baseLayers: [mapBaseLayer, groupLayer],
+            thumbnailUrl: "https://uw-mad.maps.arcgis.com/sharing/rest/content/items/624658672d7946ca8ddd4a20a070275a/data"
+            
+        });
+
+            
+            
+        const map = new Map({
+            basemap: customBasemap,
+            });
+
+        
+
+        const view = new MapView({
+            container: "viewDiv", //Reference to DOM node that will contain the view
+            map: map, //References the map object
+            center: [-89.79617141688963, 44.682142491845305],
+            zoom: 11
+            });
+
+
+        const meadRenderer1 = {
+            type: "simple",
+            symbol : {
+                type: "simple-fill",
+                color: "rgba(199, 215, 158, 1)",
+                outline: {
+                    width: 0,
+                    }
+                }
+        };
+
+        const mead1 = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/5",
+            minScale: 0,
+            maxScale: 0,
+            renderer: meadRenderer,
+            editingEnabled: false,
+            
+        });
+
+        
+        const mapBaseLayer1 = new TileLayer({
+            url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+            effect: "blur(1px) brightness(0.5) grayscale(0.8)"
+        });
+
+
+        const tileLayer1 = new TileLayer({
+            url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+            blendMode: "source-atop"
+        });
+
+        
+        const groupLayer1 = new GroupLayer({
+            layers: [mead1, tileLayer1]
+        });   
+
+
+
+        const customBasemap1 = new Basemap({
+            baseLayers: [mapBaseLayer1, groupLayer1],
+            thumbnailUrl: "https://uw-mad.maps.arcgis.com/sharing/rest/content/items/ea578e2172404ee0a094386fa48d846a/data"
+            
+        }); 
+        
+        const restrictedRenderer ={
+            type: "simple",
+            symbol: {
+                type: "simple-fill",
+                style: "diagonal-cross",
+                color: "#5c0869",
+                outline:{
+                    width: 1,
+                    color: "#5c0869"
+                }
+                
+            }
+
+        }
+
+        const restrictedAreas = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/4",
+            minScale: 0,
+            maxScale: 0,
+            renderer: restrictedRenderer,
+            editingEnabled: false,
+            title: "Seasonally Restricted Area",
+            popupTemplate: {
+                title: "Seasonally Restricted Area",
+                content: [{
+                    type: "text",
+                    text: "{PROP_NAME}"
+                },{
+                    type:"text",
+                    text: "<b>Area CLOSED {CLOSED}</b>"
+
+                },{
+                    type: "text",
+                    text: "<b>Exceptions:</b> {EXCEPTIONS}"
+                }
+            ]
+
+
+            }
+        })
+
+        const deerRenderer = {
+            type: "simple",
+            symbol: {
+                type: "simple-fill",
+                color: "rgba(255,255,255,0)",
+                outline:{
+                    width: 2, 
+                    color: "rgba(9, 112, 135, 0.6)"
+                }
+            }}
+
+        const deerFillRenderer = {
+            type: "unique-value",
+            field: "DEER_MGMT_UNIT_ID",
+            uniqueValueInfos: [{
+                    value:"Wood",
+                    label: "Wood - Central Farmland Zone (Zone 2)",
+                    symbol: {
+                        type: "simple-fill",
+                        color: "rgba(66, 135, 245, 0.6)",
+                        outline:{
+                            width: 1, 
+                            color: "rgba(255,255,255,0.6)"
+                        }}
+                    },{
+                        value: "Portage",
+                        label: "Portage - Central Farmland Zone (Zone 2)",
+                        symbol: {
+                            type: "simple-fill",
+                            color: "rgba(245, 66, 66, 0.6)",
+                            outline:{
+                                width: 1, 
+                                color: "rgba(255,255,255, 0.6)"
+                        }}
+                    },{
+                        value: "Marathon",
+                        label: "Marathon - Central Farmland Zone (Zone 2)",
+                        symbol: {
+                            type: "simple-fill",
+                            color: "rgba(112, 42, 133, 0.6)",
+                            outline:{
+                                width: 1, 
+                                color: "rgba(255,255,255 0.6)"
+                        }}
+                    }]
+            }
+            
+
+        const deerZones = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/3",
+            minScale: 0,
+            maxScale: 0, 
+            renderer: deerRenderer,
+            editingEnabled: false,
+            title: "Deer Management Unit",
+           
+        });
+
+
+        const boatRenderer = {
+            type: "simple",
+            symbol: {
+                type:  "picture-marker",
+                url: "https://uw-mad.maps.arcgis.com/sharing/rest/content/items/501651465d43462aba9bccf7c9277bbe/data",
+                height: "18px",
+                width: "18px",
+            }
+        };
+        
+        const boatRamps = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/2",
+            minScale: 0,
+            maxScale: 0,
+            renderer: boatRenderer,
+            editingEnabled: false,
+            title: "Boat Ramp",
+            popupTemplate: {
+                title: "Public Boat Landing",
+                content: [{
+                    type: "text",
+                    text: "<h>{Name}</h>"
+                },{
+                    type: "text",
+                    text: "<b>Ramp Type:</b> {Ramp}"
+                },{
+                    type:"text",
+                    text: "{Waterbody}"
+
+                },
+            ]
+
+
+            }
+        });
+
+        const parkingRenderer = {
+            type: "simple",
+            symbol: {
+                type: "picture-marker",
+                url: "https://uw-mad.maps.arcgis.com/sharing/rest/content/items/ec6f4a2e7c6e4b789f6f375395bfbad3/data",
+                width: "12px",
+                height: "12px"
+            }
+        };
+        
+        const parkingLots = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/1",
+            minScale: 0,
+            maxScale: 0,
+            renderer: parkingRenderer,
+            editingEnabled: false,
+            title: "Parking Lot",
+            popupTemplate: {
+                title: "Lot Name: {PARKING_LOT_NAME}"
+            }
+        });
+
+        const concernsRenderer = {
+            type: "unique-value",
+            field: "ConcernType",
+            uniqueValueInfos: [{
+                value: "1",
+                label: "Hunting Concern",
+                symbol: {
+                    type: "simple-marker",
+                    style: "triangle",
+                    color: "#fc9505",
+                    outline: {
+                        color: "white",
+                        width: 1
+                    }
+                },
+            }, {
+                value: "2",
+                label: "Facility Concern",
+                symbol: {
+                    type: "simple-marker",
+                    style: "circle",
+                    color: "#a1fc05",
+                    outline: {
+                        color: "white",
+                        width: 1
+                    }
+                },
+
+            }
+        ]
+        };
+
+        const fieldType = new FieldElement({
+            fieldName: "ConcernType",
+            label: "Concern Type"
+        })
+
+        const fieldConcern = new FieldElement({
+            fieldName: "Concern",
+            label: "Select concern",
+            
+        });
+
+        const fieldDate = new FieldElement({
+            fieldName: "Date",
+            label: "Date",
+        });
+
+        const fieldDesc= new FieldElement({
+            fieldName: "Description",
+            label: "Describe concern"
+
+        });
+
+        // Only show the telephone and email fields if both first and last names are entered
+        const contactExpressionInfo = new ExpressionInfo({
+            name: "contactphone",
+            expression: "!IsEmpty($feature.FirstName) && !IsEmpty($feature.LastName)"
+        });
+
+        const fieldFirst = new FieldElement({
+            fieldName: "FirstName",
+            label: "First Name",
+            description: "Please enter first name"
+        });
+
+        const fieldLast = new FieldElement({
+            fieldName: "LastName",
+            label: "Last Name",
+            description: "Please enter last name"
+        });
+
+        const fieldPhone = new FieldElement({
+            fieldName: "Phone",
+            label: "Phone",
+            description: "Numbers only, no dashes or spaces",
+            visibilityExpression: "contactphone"
+        });
+
+        const fieldEmail = new FieldElement({
+            fieldName: "Email",
+            label: "Email",
+            visibilityExpression: "contactphone"
+        })
+
+        
+
+        // Create the group element and pass in the field and text elements
+        const groupElement = new GroupElement({
+            description: "Optional contact information can help investigate concerns and will not be displayed",
+            elements: [fieldFirst, fieldLast, fieldPhone, fieldEmail],
+            initialState: "expanded"
+        });
+
+        // Create the Form template and pass in elements
+        const formTemplate = new FormTemplate({
+            elements: [fieldType, fieldConcern, fieldDate, fieldDesc, groupElement], // Add all elements to the template
+            expressionInfos:[contactExpressionInfo]
+        });
+        
+        
+        
+        const concernPoints = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/MeadWildlife/FeatureServer/0",
+            minScale: 0,
+            maxScale: 0,
+            renderer:concernsRenderer,
+            title: "Report Concern",
+            formTemplate: formTemplate,
+            popupTemplate: {
+                title: "{ConcernType}",
+                content:[{
+                    type: "text",
+                    text: "<b>Date:</b> {Date}"
+                },{
+                    type: "text",
+                    text: "<b>Concern:</b> {Concern}"
+                },{
+                    type: "text",
+                    text: "<b>Description: </b>{Description}"
+                }
+            ]
+            }
+        });
+
+        
+
+        
+        map.add(restrictedAreas);
+        map.add(deerZones);
+        map.add(parkingLots);
+        map.add(boatRamps);
+        map.add(concernPoints);
+
+    
+
+        const editor = new Editor({
+            view: view,
+            layerInfos: [
+                {
+                    layer: concernPoints,
+                    formTemplate: formTemplate
+                }
+            ],
+            supportingWidgetDefaults:{
+                featureTemplates: {
+                    visibleElements: {
+                        filter: false,
+                        
+                    }
+                }
+            }  
+                
+        });
+
+        editor.when(() => {editor.messages.widgetLabel = "Report a Concern"; })
+
+
+        const editExpand = new Expand ({
+            view: view,
+            content: editor,
+            mode: "floating",
+            expandTooltip: "Report Concern"
+        })
+
+        const trackWidget = new Track({
+            view: view
+        });
+
+
+        const layerList = new LayerList({
+            view: view,
+            listItemCreatedFunction: (event) => {
+                const item = event.item;
+                if (item.layer.type != "group") {
+                // don't show legend twice
+                item.panel = {
+                    content: "legend",
+                    open: true
+                };
+                }
+            }
+            });
+
+        const layerExpand = new Expand ({
+            view: view,
+            content: layerList,
+            mode: "floating"
+        });    
+        
+        const basemapToggle = new BasemapToggle({
+            view: view,
+            nextBasemap: customBasemap1
+            })
+
+        const infoWidget = 
+            document.getElementById("info");
+
+        const infoExpand = new Expand ({
+            view: view,
+            content: infoWidget,
+            mode: "floating",
+            autoCollapse: true,
+            expandTooltip: "ⓘ"
+        });  
+
+        const searchLot = new Search({
+            view: view,
+            searchAllEnabled: true,
+            sources: [{
+                layer: parkingLots,
+                placeholder: "Search for Parking Lot",
+                searchFields: ["PARKING_LOT_NAME"],
+                displayField: "PARKING_LOT_NAME",
+                exactMatch: false
+            }],
+            includeDefaultSources: false,
+        })
+
+        const searchExpand = new Expand({
+            view:view,
+            content: searchLot,
+            mode: "floating",
+        })
+
+        view.ui.add(basemapToggle, "bottom-right")
+        view.ui.add(trackWidget, "top-left");
+        view.ui.add(editExpand, "bottom-left");
+        view.ui.add(layerExpand, "top-left");
+        view.ui.add(searchExpand, "top-right")
+
+
+        view.ui.add("titleDiv", { //add title to map
+        position: "top-left",
+        index: 0});
+
+        view.ui.add(infoExpand, "top-left");
+
+
+        const button1 = document.getElementById("deer");
+        button1.addEventListener("click",function(){
+            deerZones.renderer = deerFillRenderer
+            });
+
+        const button2 = document.getElementById("deerBack");
+        button2.addEventListener("click",function(){
+            deerZones.renderer = deerRenderer
+            })
+
+            
+
+        });
+        </script>
+    </head>
+
+    <body class="theme">
+        <div id="viewDiv"></div>
+
+        <div id="titleDiv" class="esri-widget"> <!--create title using esri widget class-->
+            <div id="titleText">Mead Wildlife Area</div>
+          </div>
+
+        <div id="info" class="esri-widget">
+            <div id="infoText"><h1>Know Your Zone</h1>
+            <p>The Mead Wildlife Area is open to hunting and trapping during regular seasons.</p>
+            <p>Goose and Duck Management: <b>Northern Zone</b></p>
+            <p>Bear Management: <b>Zone C</b></p>
+            <p>Ruffed Grouse Management: <b>Zone A</b></p>
+            <p>Turkey Management: <b>Zone 3</b></p>
+            <p>Deer Management:</p>
+            <button id="deer" class="button">See Zones on Map</button>
+            <p style="color:rgb(66,135,245)"><b>Wood - Central Farmland Zone (Zone2)</b></p>
+            <p style="color: rgb(245, 66, 66)"><b>Portage - Central Farmland Zone (Zone2)</b></p>
+            <p style="color: rgb(112, 42, 133)"><b>Marathon - Central Farmland Zone (Zone2)</b></p>
+            <button id="deerBack" class="button">Remove from Map</button>
+            <p>For more information, visit the</p><a href="https://dnr.wisconsin.gov/topic/Lands/WildlifeAreas/mead">Wisconsin DNR Website</a>    
+        </div>
+        
+        
+        </div>
+
+        
+
+    </body>
+ </html>

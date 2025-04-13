@@ -1,0 +1,138 @@
+html,
+body,
+#viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    
+   }
+
+#formDiv {
+    width: 100%;
+    background-color: rgb(253, 250, 234) !important;
+  }
+
+#titleDiv {
+    padding: 7px;
+    background-color: rgb(110, 143, 93);
+  }
+
+#info {
+  padding: 7px;
+  background-color:rgba(253, 250, 234, 0.95);
+  width: 350px;
+}
+
+.esri-widget--button{
+  background-color: rgb(253, 250, 234) !important;
+}
+
+#infoText{
+  font-size: 12pt;
+  color:rgb(80, 107, 67);
+}
+
+#h1{
+  font-family: 16pt;
+}
+
+  div.esri-editor calcite-accordion-item[data-testid="settings"] {
+    display: none;
+  }
+
+  .esri-editor__settings {
+    display: none;
+  }
+
+  .esri-widget__heading {
+    display: none;
+  }
+
+  #titleText {
+    font-size: 22pt;
+    font-weight: bold;
+    padding: 4px;
+    color: White;
+  }
+
+  #subtitle {
+    font-style: italic;
+    text-align: center;
+    color: white;
+  }
+
+  .esri-view .esri-view-surface--inset-outline:focus::after {
+    outline: none !important;
+  }
+
+  
+#deer.button{
+  background:  rgb(110, 143, 93);
+  color: #ffffff;
+  border-width: 0;
+  padding: 10px;
+}
+
+  
+#deerBack.button{
+  background:  rgb(110, 143, 93);
+  color: #ffffff;
+  border-width: 0;
+  padding: 10px;
+}
+
+
+
+.theme,
+.theme .esri-ui {
+  --calcite-ui-background:rgb(253, 250, 234);
+  --calcite-ui-foreground-1: rgb(240, 239, 227);
+  --calcite-ui-foreground-2:rgb(240, 239, 227);
+  --calcite-ui-brand: rgb(110, 143, 93);;
+  --calcite-ui-brand-hover: rgb(80, 107, 67);
+  
+}
+
+.theme .esri-input{
+  background-color: rgb(240, 239, 227);
+}
+
+div[title='Report Concern' i] {
+  width: 150px;
+  height: 32px;
+  padding: 3px;
+  .esri-collapse__icon {
+  display: none;
+  }
+  .esri-icon-font-fallback-text {
+  width: 150px;
+  height: 32px;
+  padding: 3px;
+  clip: auto;
+  font-size: 20px;
+  font-family: arial !important;
+  
+  }
+ }
+
+ div[title='ⓘ' i] {
+  width: 32px;
+  height: 32px;
+  .esri-collapse__icon {
+  display: none;
+  }
+  .esri-icon-font-fallback-text {
+  width: 32px;
+  height: 32px;
+  clip: auto;
+  font-size: 24px;
+  padding-top: 4px;
+  font-family: arial !important;
+  
+  }
+ }
+
+ .esri-menu__list-item {
+  background-color: rgb(240, 239, 227) !important ;
+ }
